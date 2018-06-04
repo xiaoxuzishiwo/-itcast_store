@@ -10,4 +10,3 @@ myaxios.install = function (Vue) {
   Vue.prototype.$http = instance
 }
 export default myaxios
-

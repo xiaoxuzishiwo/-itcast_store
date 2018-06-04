@@ -6,7 +6,7 @@
         <el-input v-model="form.username" type="text"></el-input>
       </el-form-item>
       <el-form-item label="密码">
-        <el-input v-model="form.password" type="password"></el-input>
+        <el-input @keyup.enter.native="handleLogin" v-model="form.password" type="password"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button @click="handleLogin" class="login-btn" type="primary">登 录</el-button>
@@ -28,18 +28,16 @@ export default {
   methods: {
     async handleLogin () {
       const res = await this.$http.post('login', this.form)
-        console.log(res)
-        console.log(res.data)
-        const data = res.data
-        if(data.meta.status === 200) {
-          this.$message.success('登陆成功')
-          sessionStorage.setItem('token', data.data.token)
-          this.$router.push({
-            name: 'homeindex'
-          })
-        }else {
-          this.$message.error('登录失败')
-        }
+      const data = res.data
+      if (data.meta.status === 200) {
+        this.$message.success('登陆成功')
+        sessionStorage.setItem('token', data.data.token)
+        this.$router.push({
+          name: 'homeindex'
+        })
+      } else {
+        this.$message.error('登录失败')
+      }
     }
   }
 }
