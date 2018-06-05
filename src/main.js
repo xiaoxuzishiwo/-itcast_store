@@ -11,7 +11,7 @@ import MyAxios from '@/components/myaxios'
 // 格式化日期
 import moment from 'moment'
 // 格式化日期
-Vue.filter('fmDate',(value,fmtStr) => {
+Vue.filter('fmDate', (value, fmtStr) => {
   return moment(value).format(fmtStr)
 })
 

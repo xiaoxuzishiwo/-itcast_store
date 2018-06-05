@@ -12,8 +12,8 @@
       <el-input placeholder="请输入内容" v-model="keyUser" class="input-with-select">
         <el-button slot="append" @click="sousuo" icon="el-icon-search"></el-button>
         </el-input>
-      </el-select>
-      <el-button type="success" @click="open">添加用户</el-button>
+       </el-select>
+      <el-button type="success">添加用户</el-button>
       </el-button>
     </div>
     <!-- 表格数据 -->
@@ -106,48 +106,47 @@ export default {
   },
   methods: {
     // 状态开关
-      async handleChan (user) {
-        console.log(user.mg_state)
-         const res = await this.$http.put(`users/${user.id}/state/${user.mg_state}`)
-         const data = res.data
-         if (data.meta.status === 200) {
-          this.$message.success('用户状态修改成功')
-         } else {
-          this.$message.error('用户状态修改失败')
-         }
-      },
-     // 分页
-      handleSizeChange(val) {
-        this.pagesize = val
-        this.pagenum = 1
-        this.loadData()
-        console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        this.pagenum = val
-        this.loadData()
-        console.log(`当前页: ${val}`);
-      },
-      // 搜索
-      sousuo () {
-        this.pagenum = 1
-        this.loadData()
-      },
-      // 请求数据
-      async loadData () {
-        const token = sessionStorage.getItem('token')
-        this.$http.defaults.headers.common['Authorization'] = token
-        const res = await this.$http.get(`users?pagenum=${this.pagenum}&pagesize=${this.pagesize}&query=${this.keyUser}`)
-        const data = res.data
-        if (data.meta.status === 200) {
-          this.total = data.data.total
-          this.tableData = data.data.users
-        } else {
-          this.$message.error('获取数据失败')
-        }
+    async handleChan (user) {
+      console.log(user.mg_state)
+      const res = await this.$http.put(`users/${user.id}/state/${user.mg_state}`)
+      const data = res.data
+      if (data.meta.status === 200) {
+      this.$message.success('用户状态修改成功')
+      } else {
+         this.$message.error('用户状态修改失败')
       }
-      // 添加用户
-      
+    },
+    // 分页
+    handleSizeChange (val) {
+      this.pagesize = val
+      this.pagenum = 1
+      this.loadData()
+      // console.log(`每页 ${val} 条`)
+    },
+    handleCurrentChange (val) {
+      this.pagenum = val
+      this.loadData()
+      // console.log(`当前页: ${val}`)
+    },
+    // 搜索
+    sousuo () {
+      this.pagenum = 1
+      this.loadData()
+    },
+    // 请求数据
+    async loadData () {
+      const token = sessionStorage.getItem('token')
+      this.$http.defaults.headers.common['Authorization'] = token
+      const res = await this.$http.get(`users?pagenum=${this.pagenum}&pagesize=${this.pagesize}&query=${this.keyUser}`)
+      const data = res.data
+      console.log(data)
+      if (data.meta.status === 200) {
+        this.total = data.data.total
+        this.tableData = data.data.users
+      } else {
+        this.$message.error('获取数据失败')
+      }
+    }
   }
 }
 </script>
